@@ -1,5 +1,7 @@
 package views;
 
+import javax.swing.JOptionPane;
+
 public class JFMain extends javax.swing.JFrame {
 
     public JFMain() {
@@ -21,6 +23,9 @@ public class JFMain extends javax.swing.JFrame {
         scrollPanelProducts = new javax.swing.JScrollPane();
         tableProducts = new javax.swing.JTable();
         btnCreateReport = new javax.swing.JButton();
+        lblBrand = new javax.swing.JLabel();
+        cbBrand = new javax.swing.JComboBox<>();
+        lblNewBrand = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -99,42 +104,75 @@ public class JFMain extends javax.swing.JFrame {
         btnCreateReport.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCreateReport.setFocusable(false);
 
+        lblBrand.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblBrand.setForeground(new java.awt.Color(51, 51, 51));
+        lblBrand.setText("Marca");
+
+        cbBrand.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        cbBrand.setForeground(new java.awt.Color(51, 51, 51));
+        cbBrand.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "**Selecione**" }));
+        cbBrand.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        cbBrand.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        lblNewBrand.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblNewBrand.setForeground(new java.awt.Color(51, 204, 0));
+        lblNewBrand.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNewBrand.setText("+");
+        lblNewBrand.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblNewBrand.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblNewBrandMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panMainLayout = new javax.swing.GroupLayout(panMain);
         panMain.setLayout(panMainLayout);
         panMainLayout.setHorizontalGroup(
             panMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(scrollPanelProducts)
             .addGroup(panMainLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(panMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblName)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addGroup(panMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panMainLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(panMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblName)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27)
+                        .addComponent(btnCreateProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCreateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panMainLayout.createSequentialGroup()
                         .addGroup(panMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblAmount)
                             .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(panMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblPrice)
-                            .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panMainLayout.createSequentialGroup()
-                        .addGap(129, 129, 129)
-                        .addComponent(btnCreateProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(btnCreateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                        .addGroup(panMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblBrand)
+                            .addGroup(panMainLayout.createSequentialGroup()
+                                .addComponent(cbBrand, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblNewBrand, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panMainLayout.setVerticalGroup(
             panMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panMainLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(30, 30, 30)
                 .addGroup(panMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panMainLayout.createSequentialGroup()
-                        .addComponent(lblPrice)
+                        .addGroup(panMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblPrice)
+                            .addComponent(lblBrand))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cbBrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblNewBrand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(panMainLayout.createSequentialGroup()
                         .addComponent(lblAmount)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -143,19 +181,21 @@ public class JFMain extends javax.swing.JFrame {
                         .addComponent(lblName)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(23, 23, 23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreateProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCreateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(scrollPanelProducts, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE))
+                .addComponent(scrollPanelProducts, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,12 +206,19 @@ public class JFMain extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void lblNewBrandMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewBrandMouseClicked
+        JOptionPane.showInputDialog("Digite o nome da marca");
+    }//GEN-LAST:event_lblNewBrandMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateProduct;
     private javax.swing.JButton btnCreateReport;
+    private javax.swing.JComboBox<String> cbBrand;
     private javax.swing.JLabel lblAmount;
+    private javax.swing.JLabel lblBrand;
     private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblNewBrand;
     private javax.swing.JLabel lblPrice;
     private javax.swing.JPanel panMain;
     private javax.swing.JScrollPane scrollPanelProducts;
