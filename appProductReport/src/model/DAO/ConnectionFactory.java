@@ -29,15 +29,6 @@ abstract public class ConnectionFactory {
         }
     }
 
-    public static void closeConnection(Connection conn, PreparedStatement ps, ResultSet rs) {
-        try {
-            closeConnection(conn, ps);
-            rs.close();
-        } catch (SQLException ex) {
-            System.err.println("Error: " + ex);
-        }
-    }
-
     public static boolean executeQuery(String query) {
         try {
             conn = getConnection();
@@ -57,8 +48,6 @@ abstract public class ConnectionFactory {
             rs = ps.executeQuery(query);
         } catch (ClassNotFoundException | SQLException ex) {
             System.err.println("Error: " + ex);
-        } finally {
-            closeConnection(conn, ps, rs);
         }
         return rs;
     }
