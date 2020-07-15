@@ -1,18 +1,20 @@
 package views;
 
 import javax.swing.JOptionPane;
+import model.Alert;
 import model.Brand;
 import model.DAO.BrandDAO;
+import resource.ViewAlert;
 
 public class JFMain extends javax.swing.JFrame {
-
+    
     BrandDAO brandDAO = new BrandDAO();
-
+    
     public JFMain() {
         initComponents();
         loadComboBoxBrands();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -214,16 +216,18 @@ public class JFMain extends javax.swing.JFrame {
     private void lblNewBrandMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewBrandMouseClicked
         Brand brand = new Brand();
         brand.setName(JOptionPane.showInputDialog("Digite o nome da marca"));
-        JOptionPane.showMessageDialog(null,
-                brandDAO.create(brand) ? "Marca criada com sucesso" : "Nao foi possivel criar a marca"
-        );
+        
+        if (brandDAO.create(brand)) {
+            ViewAlert.show(new Alert());
+        }
+        
         loadComboBoxBrands();
     }//GEN-LAST:event_lblNewBrandMouseClicked
-
+    
     private void loadComboBoxBrands() {
         cbBrand.removeAllItems();
         cbBrand.addItem("**Selecione**");
-
+        
         brandDAO.findAll().forEach(brand -> {
             cbBrand.addItem(brand.getName());
         });

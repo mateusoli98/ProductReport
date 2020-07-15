@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import model.Alert;
+import resource.ViewAlert;
 
 abstract public class ConnectionFactory {
 
@@ -37,7 +40,9 @@ abstract public class ConnectionFactory {
             return true;
         } catch (ClassNotFoundException | SQLException ex) {
             System.err.println("Error: " + ex);
+            ViewAlert.show(new Alert("Erro interno", "Erro", JOptionPane.ERROR_MESSAGE));
         }
+
         return false;
     }
 
@@ -48,6 +53,7 @@ abstract public class ConnectionFactory {
             rs = ps.executeQuery(query);
         } catch (ClassNotFoundException | SQLException ex) {
             System.err.println("Error: " + ex);
+            ViewAlert.show(new Alert("Erro interno", "Erro", JOptionPane.ERROR_MESSAGE));
         }
         return rs;
     }
