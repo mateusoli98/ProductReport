@@ -1,8 +1,7 @@
-
 package model;
 
-
 public class Brand {
+
     private int id;
     private String name;
 
@@ -19,8 +18,7 @@ public class Brand {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.trim().toLowerCase();
     }
-    
-    
+
 }
