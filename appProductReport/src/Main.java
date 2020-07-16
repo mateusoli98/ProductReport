@@ -1,4 +1,5 @@
 
+import resource.StandardText;
 import views.JFMain;
 
 /**
@@ -16,7 +17,7 @@ public class Main {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            System.out.println("Error: " + ex);
+            System.out.println(StandardText.ERROR + ex);
         }
 
         java.awt.EventQueue.invokeLater(() -> {
