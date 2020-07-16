@@ -1,21 +1,27 @@
 package views;
 
+import controller.ProductController;
 import javax.swing.JOptionPane;
 import model.Alert;
 import model.Brand;
 import model.DAO.BrandDAO;
+import model.DAO.ProductDAO;
+import model.Product;
 import resource.StandardText;
 import resource.ViewAlert;
 
 public class JFMain extends javax.swing.JFrame {
-    
+
     BrandDAO brandDAO = new BrandDAO();
-    
+    ProductDAO prodDAO = new ProductDAO();
+
+    ProductController prodController = new ProductController();
+
     public JFMain() {
         initComponents();
         loadComboBoxBrands();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -68,6 +74,11 @@ public class JFMain extends javax.swing.JFrame {
         btnCreateProduct.setBorder(null);
         btnCreateProduct.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCreateProduct.setFocusable(false);
+        btnCreateProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateProductActionPerformed(evt);
+            }
+        });
 
         scrollPanelProducts.setBackground(new java.awt.Color(255, 255, 255));
         scrollPanelProducts.setBorder(new javax.swing.border.MatteBorder(null));
@@ -217,21 +228,46 @@ public class JFMain extends javax.swing.JFrame {
     private void lblNewBrandMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewBrandMouseClicked
         Brand brand = new Brand();
         brand.setName(JOptionPane.showInputDialog(StandardText.ENTER_BRAND_NAME));
-        
+
         if (brandDAO.create(brand)) {
             ViewAlert.show(new Alert());
         }
-        
+
         loadComboBoxBrands();
     }//GEN-LAST:event_lblNewBrandMouseClicked
-    
+
+    private void btnCreateProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateProductActionPerformed
+        Product prod = loadObjectProduct();
+
+        if (prodController.validate(prod)) {
+            prod.setBrand(brandDAO.findBrand(prod.getBrand()));
+            if (prodDAO.create(prod)) {
+                ViewAlert.show(new Alert());
+            }
+        }
+    }//GEN-LAST:event_btnCreateProductActionPerformed
+
     private void loadComboBoxBrands() {
         cbBrand.removeAllItems();
         cbBrand.addItem(StandardText.SELECT);
-        
+
         brandDAO.findAll().forEach(brand -> {
             cbBrand.addItem(brand.getName());
         });
+    }
+
+    private Product loadObjectProduct() {
+
+        Brand brand = new Brand();
+        brand.setName(cbBrand.getSelectedItem().toString());
+
+        Product product = new Product();
+        product.setName(txtName.getText());
+        product.setAmount(Integer.parseInt(txtAmount.getText()));
+        product.setPrice(Float.parseFloat(txtPrice.getText()));
+        product.setBrand(brand);
+
+        return product;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
