@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import model.Alert;
 
 import model.Brand;
+import resource.StandardText;
 import resource.ViewAlert;
 
 public class BrandDAO {
@@ -15,7 +16,12 @@ public class BrandDAO {
         String query = "INSERT INTO brand VALUES (DEFAULT, '" + brand.getName() + "')";
 
         if (find(brand)) {
-            ViewAlert.show(new Alert("Marca ja existe", "Error", JOptionPane.ERROR_MESSAGE));
+            ViewAlert.show(new Alert(
+                    StandardText.BRAND_ALREADY_REGISTERED,
+                    StandardText.TITLE_ERROR,
+                    JOptionPane.ERROR_MESSAGE)
+            );
+
             return false;
         }
 
@@ -29,8 +35,12 @@ public class BrandDAO {
                     .next();
 
         } catch (SQLException ex) {
-            System.err.println("Error: " + ex);
-            ViewAlert.show(new Alert("Erro ao buscar registro(s)", "Error", JOptionPane.ERROR_MESSAGE));
+            System.err.println(StandardText.ERROR + ex);
+            ViewAlert.show(new Alert(
+                    StandardText.ERROR_FETCHING_RECORDS,
+                    StandardText.TITLE_ERROR,
+                    JOptionPane.ERROR_MESSAGE)
+            );
         }
         return false;
     }
@@ -51,7 +61,10 @@ public class BrandDAO {
 
         } catch (SQLException ex) {
             System.err.println("Error: " + ex);
-            ViewAlert.show(new Alert("Erro ao buscar registro(s)", "Error", JOptionPane.ERROR_MESSAGE));
+            ViewAlert.show(new Alert(
+                    StandardText.ERROR_FETCHING_RECORDS,
+                    StandardText.TITLE_ERROR,
+                    JOptionPane.ERROR_MESSAGE));
         }
         return listBrand;
     }

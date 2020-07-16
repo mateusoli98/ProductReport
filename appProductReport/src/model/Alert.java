@@ -1,6 +1,7 @@
 package model;
 
 import javax.swing.JOptionPane;
+import resource.StandardText;
 
 public class Alert {
 
@@ -9,8 +10,8 @@ public class Alert {
     private int type;
 
     public Alert() {
-        this.message = "Sucesso";
-        this.title = "Status da operacao";
+        this.message = StandardText.SUCCESS;
+        this.title = StandardText.OPERATION_STATUS;
         this.type = JOptionPane.INFORMATION_MESSAGE;
     }
 

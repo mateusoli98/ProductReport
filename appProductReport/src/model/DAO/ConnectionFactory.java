@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import model.Alert;
+import resource.StandardText;
 import resource.ViewAlert;
 
 abstract public class ConnectionFactory {
@@ -28,7 +29,7 @@ abstract public class ConnectionFactory {
             conn.close();
             ps.close();
         } catch (SQLException ex) {
-            System.err.println("Error: " + ex);
+            System.err.println(StandardText.ERROR + ex);
         }
     }
 
@@ -39,8 +40,13 @@ abstract public class ConnectionFactory {
             ps.executeUpdate();
             return true;
         } catch (ClassNotFoundException | SQLException ex) {
-            System.err.println("Error: " + ex);
-            ViewAlert.show(new Alert("Erro interno", "Erro", JOptionPane.ERROR_MESSAGE));
+            System.err.println(StandardText.ERROR + ex);
+
+            ViewAlert.show(new Alert(
+                    StandardText.INTERNAL_ERROR,
+                    StandardText.TITLE_ERROR,
+                    JOptionPane.ERROR_MESSAGE)
+            );
         }
 
         return false;
@@ -52,9 +58,15 @@ abstract public class ConnectionFactory {
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery(query);
         } catch (ClassNotFoundException | SQLException ex) {
-            System.err.println("Error: " + ex);
-            ViewAlert.show(new Alert("Erro interno", "Erro", JOptionPane.ERROR_MESSAGE));
+            System.err.println(StandardText.ERROR + ex);
+
+            ViewAlert.show(new Alert(
+                    StandardText.INTERNAL_ERROR,
+                    StandardText.TITLE_ERROR,
+                    JOptionPane.ERROR_MESSAGE)
+            );
         }
+
         return rs;
     }
 }

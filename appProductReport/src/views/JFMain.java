@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import model.Alert;
 import model.Brand;
 import model.DAO.BrandDAO;
+import resource.StandardText;
 import resource.ViewAlert;
 
 public class JFMain extends javax.swing.JFrame {
@@ -215,7 +216,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void lblNewBrandMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewBrandMouseClicked
         Brand brand = new Brand();
-        brand.setName(JOptionPane.showInputDialog("Digite o nome da marca"));
+        brand.setName(JOptionPane.showInputDialog(StandardText.ENTER_BRAND_NAME));
         
         if (brandDAO.create(brand)) {
             ViewAlert.show(new Alert());
@@ -226,7 +227,7 @@ public class JFMain extends javax.swing.JFrame {
     
     private void loadComboBoxBrands() {
         cbBrand.removeAllItems();
-        cbBrand.addItem("**Selecione**");
+        cbBrand.addItem(StandardText.SELECT);
         
         brandDAO.findAll().forEach(brand -> {
             cbBrand.addItem(brand.getName());
