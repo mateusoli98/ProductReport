@@ -24,7 +24,7 @@ abstract public class ConnectionFactory {
         );
     }
 
-    public static void closeConnection(Connection conn, PreparedStatement ps) {
+    private static void closeConnection(Connection conn, PreparedStatement ps) {
         try {
             conn.close();
             ps.close();
@@ -47,6 +47,8 @@ abstract public class ConnectionFactory {
                     StandardText.TITLE_ERROR,
                     JOptionPane.ERROR_MESSAGE)
             );
+        } finally {
+            closeConnection(conn, ps);
         }
 
         return false;
