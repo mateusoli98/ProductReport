@@ -1,11 +1,9 @@
 package controller;
 
 import javax.swing.JOptionPane;
-import model.Alert;
 import model.Brand;
 import model.DAO.BrandDAO;
 import resource.StandardText;
-import resource.ViewAlert;
 
 public class BrandController {
 
@@ -13,12 +11,15 @@ public class BrandController {
 
     public boolean validate(Brand brand) {
 
+        if (brand.getName().isEmpty()) {
+            return false;
+        }
+
         if (brandDAO.findBrand(brand) == null) {
             Brand b = new Brand();
             brand.setName(JOptionPane.showInputDialog(StandardText.ENTER_BRAND_NAME));
 
             if (brandDAO.create(brand)) {
-                ViewAlert.show(new Alert());
                 return true;
             }
         } else {
