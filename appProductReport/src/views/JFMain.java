@@ -1,5 +1,6 @@
 package views;
 
+import controller.BrandController;
 import controller.ProductController;
 import javax.swing.JOptionPane;
 import model.Alert;
@@ -15,6 +16,7 @@ public class JFMain extends javax.swing.JFrame {
     BrandDAO brandDAO = new BrandDAO();
     ProductDAO prodDAO = new ProductDAO();
 
+    BrandController brandController = new BrandController();
     ProductController prodController = new ProductController();
 
     public JFMain() {
@@ -86,17 +88,17 @@ public class JFMain extends javax.swing.JFrame {
 
         tableProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null}
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "Quantidade", "Preco"
+                "ID", "Nome", "Quantidade", "Preco", "Marca"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -113,6 +115,7 @@ public class JFMain extends javax.swing.JFrame {
             tableProducts.getColumnModel().getColumn(1).setResizable(false);
             tableProducts.getColumnModel().getColumn(2).setResizable(false);
             tableProducts.getColumnModel().getColumn(3).setResizable(false);
+            tableProducts.getColumnModel().getColumn(4).setResizable(false);
         }
 
         btnCreateReport.setBackground(new java.awt.Color(0, 153, 153));
@@ -238,11 +241,14 @@ public class JFMain extends javax.swing.JFrame {
 
     private void btnCreateProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateProductActionPerformed
         Product prod = loadObjectProduct();
-
-        if (prodController.validate(prod)) {
-            prod.setBrand(brandDAO.findBrand(prod.getBrand()));
-            if (prodDAO.create(prod)) {
-                ViewAlert.show(new Alert());
+        if (prod != null) {
+            if (prodController.validate(prod) && brandController.validate(prod.getBrand())) {
+                prod.setBrand(brandDAO.findBrand(prod.getBrand()));
+                if (prodDAO.create(prod)) {
+                    ViewAlert.show(new Alert());
+                    cleanFields();
+                    loadComboBoxBrands();
+                }
             }
         }
     }//GEN-LAST:event_btnCreateProductActionPerformed
@@ -258,16 +264,65 @@ public class JFMain extends javax.swing.JFrame {
 
     private Product loadObjectProduct() {
 
+        if (!validateInputs()) {
+            return null;
+        }
+
         Brand brand = new Brand();
+        Product product = new Product();
+
         brand.setName(cbBrand.getSelectedItem().toString());
 
-        Product product = new Product();
         product.setName(txtName.getText());
         product.setAmount(Integer.parseInt(txtAmount.getText()));
         product.setPrice(Float.parseFloat(txtPrice.getText()));
         product.setBrand(brand);
 
         return product;
+    }
+
+    private boolean validateInputs() {
+
+        if (txtName.getText().isEmpty()
+                || txtAmount.getText().isEmpty()
+                || txtPrice.getText().isEmpty()
+                || cbBrand.getSelectedItem().toString().isEmpty()) {
+
+            ViewAlert.show(new Alert(
+                    StandardText.EMPTY_FIELDS,
+                    StandardText.TITLE_ERROR,
+                    JOptionPane.ERROR_MESSAGE
+            ));
+
+            cleanFields();
+
+            return false;
+        }
+
+        try {
+            Integer.parseInt(txtAmount.getText());
+            Float.parseFloat(txtPrice.getText());
+        } catch (NumberFormatException ex) {
+
+            ViewAlert.show(new Alert(
+                    StandardText.NUMBER_FORMART_EXCEPTION,
+                    StandardText.TITLE_ERROR,
+                    JOptionPane.ERROR_MESSAGE
+            ));
+
+            cleanFields();
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private void cleanFields() {
+        txtName.setText("");
+        txtAmount.setText("");
+        txtPrice.setText("");
+        cbBrand.setSelectedIndex(0);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
