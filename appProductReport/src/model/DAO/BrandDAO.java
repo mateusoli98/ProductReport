@@ -53,16 +53,14 @@ public class BrandDAO {
             rs = ConnectionFactory.executeQueryR("SELECT * FROM brand WHERE name = '" + brand.getName() + "'");
 
             while (rs.next()) {
-                return new Brand(rs.getInt("id"), rs.getString("name"));
+                return new Brand(
+                        rs.getInt("id"),
+                        rs.getString("name")
+                );
             }
 
         } catch (SQLException ex) {
             System.err.println(StandardText.ERROR + ex);
-            ViewAlert.show(new Alert(
-                    StandardText.ERROR_FETCHING_RECORDS,
-                    StandardText.TITLE_ERROR,
-                    JOptionPane.ERROR_MESSAGE)
-            );
         }
         return null;
     }
